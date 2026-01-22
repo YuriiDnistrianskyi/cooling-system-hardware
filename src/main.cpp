@@ -16,6 +16,7 @@ void setup() {
 }
 
 void loop() {
+  loopWebSocket();
   uint16_t currentFanUpdateTime = millis();
   if(currentFanUpdateTime - lastFanUpdateTime >= FAN_UPDATE_INTERVAL) 
   {
