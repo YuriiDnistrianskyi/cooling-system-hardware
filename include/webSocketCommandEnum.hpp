@@ -1,0 +1,10 @@
+#ifndef WEBSOCKET_COMMAND_ENUM_HPP
+#define WEBSOCKET_COMMAND_ENUM_HPP
+
+enum WebSocketCommandEnum {
+    COMMAND_NONE = 0,
+    COMMAND_FAN_SPEED_UP = 1,
+    COMMAND_FAN_SPEED_DOWN = 2
+};
+
+#endif
