@@ -7,7 +7,8 @@
 #include "../include/config.hpp"
 
 WebSocketCommandEnum webSocketCommand = COMMAND_NONE;
-uint16_t lastFanUpdateTime = 0;
+uint8_t fanSpeed = 0;
+uint32_t lastFanUpdateTime = 0;
 
 void setup() {
   initPins();
@@ -17,29 +18,29 @@ void setup() {
 
 void loop() {
   loopWebSocket();
-  uint16_t currentFanUpdateTime = millis();
+  uint32_t currentFanUpdateTime = millis();
   if(currentFanUpdateTime - lastFanUpdateTime >= FAN_UPDATE_INTERVAL) 
   {
     lastFanUpdateTime = currentFanUpdateTime;
     if(webSocketCommand != COMMAND_NONE) 
     {
-      uint8_t currentFanSpeed = analogRead(FAN_PIN);
-      uint8_t newFanSpeed = currentFanSpeed;
+      uint8_t newFanSpeed = fanSpeed;
       if(webSocketCommand == COMMAND_FAN_SPEED_UP) 
       {
-        newFanSpeed = min(currentFanSpeed + 25, 255);
+        newFanSpeed = min(fanSpeed + 25, 255);
       }
       else if(webSocketCommand == COMMAND_FAN_SPEED_DOWN) 
       {
-        newFanSpeed = max(currentFanSpeed - 25, 0);
+        newFanSpeed = max(fanSpeed - 25, 0);
       }
       else {
         Serial.println("Unknown WebSocketCommand: " + String((int)webSocketCommand)); 
       }
 
       webSocketCommand = COMMAND_NONE;
-      analogWrite(FAN_PIN, newFanSpeed);
-      sendWebSocketMessage();
+      fanSpeed = newFanSpeed;
+      analogWrite(FAN_PIN, fanSpeed);
+      sendWebSocketMessage(fanSpeed);
     }
   }
 }

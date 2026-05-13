@@ -3,6 +3,6 @@
 
 void connectToServer();
 void loopWebSocket();
-void sendWebSocketMessage();
+void sendWebSocketMessage(uint8_t speed);
 
 #endif // SERVER_CONNECT_HPP

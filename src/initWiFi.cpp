@@ -1,9 +1,11 @@
 #include <ESP8266WiFi.h>
 
+#include "../include/initWiFi.hpp"
+
 #include "../include/initPins.hpp"
 #include "../include/config.hpp"
 
-void initWifFi() {
+void initWiFi() {
     WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
     Serial.print("Connecting to WiFi (" + String(WIFI_SSID) + ")");
     while (WiFi.status() != WL_CONNECTED) {

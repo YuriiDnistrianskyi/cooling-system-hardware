@@ -7,11 +7,14 @@
 const uint8_t FAN_PIN = D5; //
 // const uint8_t RELAY_PIN = D1; //
 
-const uint8_t FAN_UPDATE_INTERVAL = 2000;
+const uint32_t FAN_UPDATE_INTERVAL = 2000;
 
 const char* WIFI_SSID = MY_WIFI_SSID;
 const char* WIFI_PASSWORD = MY_WIFI_PASSWORD;
 
 const char* SERVER_URL = MY_SERVER_URL;
 const uint16_t SERVER_PORT = MY_SERVER_PORT;
-const char* SERVER_PATH = MY_SERVER_PATH;
+const char* SERVER_PATH = MY_SERVER_PATH.c_str();
+
+const char* DEVICE_PRIVATE_NAME = MY_DEVICE_PRIVATE_NAME;
+const char* DEVICE_PASSWORD = MY_DEVICE_PASSWORD;

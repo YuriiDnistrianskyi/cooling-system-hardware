@@ -7,6 +7,7 @@
 #include "../include/webSocketCommandEnum.hpp"
 
 extern WebSocketCommandEnum webSocketCommand;
+extern uint8_t fanSpeed;
 WebSocketsClient webSocket;
 
 void webSocketEvent(WStype_t type, uint8_t* payload, size_t length) {
@@ -29,11 +30,11 @@ void webSocketEvent(WStype_t type, uint8_t* payload, size_t length) {
             }
 
             const char* command = doc["command"];
-            if (strcmp(command, "fan_speed_up") == 0) 
+            if (strcmp(command, "up") == 0) 
             {
                 webSocketCommand = COMMAND_FAN_SPEED_UP;
             }
-            else if(strcmp(command, "fan_speed_down") == 0)
+            else if(strcmp(command, "down") == 0)
             {
                 webSocketCommand = COMMAND_FAN_SPEED_DOWN;
             }
@@ -44,17 +45,17 @@ void webSocketEvent(WStype_t type, uint8_t* payload, size_t length) {
 void connectToServer() {
     webSocket.begin(SERVER_URL, SERVER_PORT, SERVER_PATH);
     webSocket.onEvent(webSocketEvent);
-    webSocket.setREconnectInterval(5000);
+    webSocket.setReconnectInterval(5000);
 }
 
 void loopWebSocket() {
     webSocket.loop();
 }
 
-void sendWebSocketMessage() {
-    StaticJsonDocument<100> doc;
-    doc["type"] = "fan_speed";
-    doc["value"] = analogRead(FAN_PIN);
+void sendWebSocketMessage(uint8_t speed) {
+    StaticJsonDocument<200> doc;
+    doc["value"] = (speed * 100) / 255;
+    Serial.println("Send speed: " + String(speed));
 
     String payload;
     serializeJson(doc, payload);
